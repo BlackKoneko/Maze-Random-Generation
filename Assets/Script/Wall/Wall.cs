@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    public Vector2Int index;
+    public Vector2Int index; //x,y 좌표
 
+    //벽이 있는지 여부
     public bool isFrontWall;
     public bool isBackWall;
     public bool isRightWall;
@@ -13,10 +14,10 @@ public class Wall : MonoBehaviour
 
     public GameObject frontWall;
     public GameObject backWall;
-    public GameObject rightFrontWall;
-    public GameObject leftFrontWall;
+    public GameObject RightWall;
+    public GameObject LeftWall;
 
-    void Start()
+    private void Start()
     {
         SetWall();
     }
@@ -25,8 +26,8 @@ public class Wall : MonoBehaviour
     {
         frontWall.SetActive(isFrontWall);
         backWall.SetActive(isBackWall);
-        rightFrontWall.SetActive(isLeftWall);
-        leftFrontWall.SetActive(isLeftWall);
+        RightWall.SetActive(isRightWall);
+        LeftWall.SetActive(isLeftWall);
     }
 
     public bool CheckAllWall()

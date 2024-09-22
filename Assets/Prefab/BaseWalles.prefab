@@ -153,14 +153,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169a07d2a921cf94597dd14f8d3c627e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: {x: 0, y: 0}
   isFrontWall: 1
   isBackWall: 1
   isRightWall: 1
   isLeftWall: 1
   frontWall: {fileID: 267469012092108717}
   backWall: {fileID: 4152858848409833139}
-  rightFrontWall: {fileID: 6431651521398578497}
-  leftFrontWall: {fileID: 2837053584781556115}
+  RightWall: {fileID: 6431651521398578497}
+  LeftWall: {fileID: 2837053584781556115}
 --- !u!1 &2837053584781556115
 GameObject:
   m_ObjectHideFlags: 0

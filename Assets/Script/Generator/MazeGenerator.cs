@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
-    public int width = 5;
-    public int height = 5;
+    public int width = 10;
+    public int height = 10;
 
     public Wall wallPrefab;
     private Wall[,] wallMap;
+    private List<Wall> wallHistoryList;
     void Start()
     {
         BatchWalls();
         MakeMaze(wallMap[0,0]);
+        wallMap[0, 0].isLeftWall = false;
+        wallMap[width-1, height -1].isRightWall = false;
+        wallMap[0, 0].SetWall();
+        wallMap[width -1, height -1].SetWall();
     }
 
     private void BatchWalls()
     {
         wallMap = new Wall[width, height];
+        wallHistoryList = new List<Wall>();
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -37,8 +43,19 @@ public class MazeGenerator : MonoBehaviour
         Wall[] neighbors = GetNeighborWalls(startWall);
         if(neighbors.Length > 0)
         {
-            Wall nextWall = neighbors[Random.Range(0, neighbors.Length)];
+            Wall nextWall = neighbors[Random.Range(0, neighbors.Length)]; 
             ConnectWalls(startWall, nextWall);
+            wallHistoryList.Add(nextWall);
+            MakeMaze(nextWall);
+        }
+        else
+        {
+            if(wallHistoryList.Count > 0)
+            {
+                Wall lastWall = wallHistoryList[wallHistoryList.Count - 1];
+                wallHistoryList.Remove(lastWall);
+                MakeMaze(lastWall);
+            }
         }
     }
 
@@ -83,7 +100,7 @@ public class MazeGenerator : MonoBehaviour
 
     private void ConnectWalls(Wall wall0, Wall wall1)
     {
-        Vector2Int dir = wall0.index - wall1.index;
+        Vector2Int dir = wall0.index - wall1.index; //Vector2인데 int값이 들어감
         if(dir.y <= -1)
         {
             wall0.isFrontWall = false;
@@ -94,15 +111,15 @@ public class MazeGenerator : MonoBehaviour
             wall0.isBackWall = false;
             wall1.isFrontWall = false;
         }
-        if (dir.x <= -1)
-        {
-            wall0.isRightWall = false;
-            wall1.isLeftWall = false;
-        }
         if (dir.x >= 1)
         {
             wall0.isLeftWall = false;
             wall1.isRightWall = false;
+        }
+        if (dir.x <= -1)
+        {
+            wall0.isRightWall = false;
+            wall1.isLeftWall = false;
         }
         wall0.SetWall();
         wall1.SetWall();
